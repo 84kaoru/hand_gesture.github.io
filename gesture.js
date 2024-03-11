@@ -1,5 +1,5 @@
 const video = document.getElementById("input");
-const canvas = document.getElementById("canvas");
+const canvas = document.getElementById("output");
 const ctx = canvas.getContext("2d");
 
 const config = {
@@ -29,3 +29,18 @@ document.getElementById("start")
 
 document.getElementById("stop")
 .addEventListener("click", () => camera.stop());
+
+hands.onResults(results => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(results.image,0,0,canvas.width,canvas.height);
+
+    if(results.multiHandLandmarks) {
+        results.multiHandLandmarks.forEach(marks => {
+            drawConnectors(ctx, marks, HAND_CONNECTIONS, {color: "#0f0"});
+
+            drawLandmarks(ctx, marks, {color: "f00"});
+
+        })
+    }
+
+});
